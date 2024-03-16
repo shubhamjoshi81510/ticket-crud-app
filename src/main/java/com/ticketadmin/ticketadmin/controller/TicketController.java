@@ -8,10 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/user")
 public class TicketController {
     @Autowired
     private TicketAdminService service;
@@ -24,21 +26,40 @@ public class TicketController {
 
     }
 
-    @GetMapping
+    @GetMapping("/{userID}")
     public Optional<TicketDetail> getUser(@PathVariable String userID) {
         return service.getUser(userID);
 
     }
-    @GetMapping("/list")
+    @GetMapping
     List<TicketDetail> getallUser(){
         return service.getallUser();
     }
 
     @DeleteMapping
-     void delete
+     String  deleteAllUser (){
+        service.deleteallUser();
+        return "all users are deleted";
+    }
+
+    @DeleteMapping("/{userID}")
+    String deleteUserById (@PathVariable String userID){
+        service.deleteUser(userID);
+        return userID +"this user has been deleted";
+    }
 
 
+    @PutMapping("/{userID}")
+    public TicketDetail updateUserDeatail(@PathVariable String userID ,@RequestBody TicketAdminRequest request){
+        return service.updateUserDetail(request,userID );
 
+    }
+
+    @PatchMapping("/{userID}")
+    public TicketDetail updateUserDetail(@PathVariable String userID , @RequestBody HashMap<String ,String> map){
+      return service.updatePartialUser(map , userID);
+
+    }
 }
 
 

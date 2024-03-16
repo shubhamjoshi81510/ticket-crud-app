@@ -6,6 +6,7 @@ import com.ticketadmin.ticketadmin.repository.TicketAdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,7 +23,7 @@ public class TicketAdminServiceimpl implements TicketAdminService {
         detail.setUserID(UUID.randomUUID().toString());
         detail.setAge(request.getAge());
         detail.setEmail(request.getEmail());
-        detail.setUserName(request.getUsername());
+        detail.setUserName(request.getUserName());
         return ticketAdminRepository.save(detail);
     }
 
@@ -36,10 +37,41 @@ public class TicketAdminServiceimpl implements TicketAdminService {
         return ticketAdminRepository.findById(userID);
     }
 
+
+
     @Override
-    public TicketDetail updateUserDetail(String userID) {
-        return null;
+    public TicketDetail updateUserDetail(TicketAdminRequest request,String userID) {
+        TicketDetail detail = new TicketDetail();
+        detail.setUserID(userID);
+        detail.setUserName(request.getUserName());
+        detail.setEmail(request.getEmail());
+        detail.setAge(request.getAge());
+        return ticketAdminRepository.save(detail);
+
     }
+
+    @Override
+
+
+    public TicketDetail updatePartialUser(HashMap<String,String> map , String userID){
+
+        TicketDetail details = ticketAdminRepository.findById(userID).get();
+        if(map.containsKey("UserName")){
+            details.setUserName(map.get("UserName"));
+        }
+        if(map.containsKey("Age")){
+            details.setUserName(map.get("Age"));
+        }
+
+        if(map.containsKey("Email")){
+            details.setUserName(map.get("Email"));
+        }
+
+        return ticketAdminRepository.save(details);
+
+    }
+
+
 
     @Override
     public void deleteUser(String userID) {
@@ -51,6 +83,9 @@ public class TicketAdminServiceimpl implements TicketAdminService {
         ticketAdminRepository.deleteAll();
 
     }
+
+
+
 
 
 

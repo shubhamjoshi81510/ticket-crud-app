@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class TicketAdminRequest {
 
-    private String username;
+    private String userName;
     private String email;
     private String age;
 }
