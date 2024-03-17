@@ -60,11 +60,11 @@ public class TicketAdminServiceimpl implements TicketAdminService {
             details.setUserName(map.get("UserName"));
         }
         if(map.containsKey("Age")){
-            details.setUserName(map.get("Age"));
+            details.setAge(map.get("Age"));
         }
 
         if(map.containsKey("Email")){
-            details.setUserName(map.get("Email"));
+            details.setEmail(map.get("Email"));
         }
 
         return ticketAdminRepository.save(details);
